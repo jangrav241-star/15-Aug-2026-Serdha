@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>सेरहड़ा खेल 2026 — आय व्यय रिपोर्ट</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Devanagari:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F7F1E1;
+    --paper-line: #E4D9BE;
+    --ledger-red: #A6303C;
+    --ledger-red-dark: #7C1F29;
+    --ink: #1B2A4A;
+    --ink-soft: #3B4A6B;
+    --muted: #7A7262;
+    --ok: #2F7A4D;
+    --ok-bg: #E4F1E7;
+    --bad: #A6303C;
+    --bad-bg: #F7E6E6;
+    --warn: #9C6B12;
+    --warn-bg: #FBF0DB;
+    --card-bg: #FFFDF7;
+    --shadow: 0 2px 10px rgba(27,42,74,0.08);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    background-image: linear-gradient(var(--paper-line) 1px, transparent 1px);
+    background-size: 100% 34px;
+    color: var(--ink);
+    font-family: 'IBM Plex Sans Devanagari','IBM Plex Sans',sans-serif;
+    line-height: 1.5;
+    padding-bottom: 60px;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; bottom: 0; left: 28px;
+    width: 2px;
+    background: var(--ledger-red);
+    opacity: 0.55;
+    z-index: 0;
+  }
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 18px;
+    position: relative;
+    z-index: 1;
+  }
+  header.top { padding: 28px 0 18px 34px; }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ledger-red-dark);
+    font-weight: 600;
+  }
+  h1 { margin: 6px 0 2px; font-size: 30px; font-weight: 700; color: var(--ink); }
+  .sub { color: var(--ink-soft); font-size: 15px; margin-bottom: 2px; }
+  .sub.en { color: var(--muted); font-size: 13px; }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0 8px 0;
+    padding-left: 34px;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--ledger-red);
+    border-radius: 6px;
+    padding: 14px 14px 12px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .card .k { font-size: 12.5px; color: var(--muted); margin-bottom: 4px; }
+  .card .v { font-family: 'IBM Plex Mono', monospace; font-size: 21px; font-weight: 600; color: var(--ink); }
+  .card.wide { grid-column: 1 / -1; }
+  .card.hero { background: var(--ink); border-color: var(--ink); }
+  .card.hero .k { color: #C9D3E8; }
+  .card.hero .v { color: #fff; font-size: 26px; }
+  .card .v.neg { color: var(--ledger-red); }
+  .card .v.pos { color: var(--ok); }
+  .two-figs { display:flex; gap: 18px; flex-wrap: wrap; margin-top: 2px;}
+  .two-figs div { font-family: 'IBM Plex Mono', monospace; font-size: 15px; color:#fff; }
+  .two-figs .lbl { font-family:'IBM Plex Sans Devanagari'; font-size:12px; color:#C9D3E8; display:block; }
+
+  .toolbar { display: flex; gap: 8px; align-items: center; margin: 22px 0 14px 34px; flex-wrap: wrap; }
+  #search {
+    flex: 1; min-width: 160px; padding: 10px 12px;
+    border: 1.5px solid var(--ink-soft); border-radius: 6px;
+    background: var(--card-bg); font-size: 14px; font-family: inherit; color: var(--ink);
+  }
+  #search:focus { outline: 2px solid var(--ledger-red); outline-offset: 1px; }
+  .btn {
+    padding: 10px 14px; border-radius: 6px; border: 1.5px solid var(--ink);
+    background: var(--card-bg); color: var(--ink); font-size: 13px; font-weight: 600;
+    cursor: pointer; font-family: inherit; white-space: nowrap;
+  }
+  .btn:hover { background: var(--ink); color: #fff; }
+  .btn:focus-visible { outline: 2px solid var(--ledger-red); outline-offset: 2px; }
+
+  .sectionlabel {
+    margin: 26px 0 10px 34px; font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--ledger-red-dark); font-family: 'IBM Plex Mono', monospace;
+  }
+
+  details.group {
+    background: var(--card-bg); border: 1px solid #DDD0B0; border-left: 4px solid var(--ledger-red);
+    border-radius: 6px; margin: 0 0 10px 26px; box-shadow: var(--shadow); overflow: hidden;
+  }
+  details.group summary {
+    list-style: none; cursor: pointer; padding: 13px 16px;
+    display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--ink);
+  }
+  details.group summary::-webkit-details-marker { display: none; }
+  details.group summary::before {
+    content: "▸"; color: var(--ledger-red); font-size: 14px; transition: transform 0.15s ease; flex-shrink: 0;
+  }
+  details.group[open] summary::before { transform: rotate(90deg); }
+  .ticket { font-size: 15px; }
+  .grouptitle { flex: 1; font-size: 14.5px; }
+  .subtle { color: var(--muted); font-weight: 400; font-size: 12.5px; }
+  .grouptotal { font-family: 'IBM Plex Mono', monospace; font-weight: 600; color: var(--ledger-red-dark); font-size: 14px; white-space: nowrap; }
+  .groupbody { padding: 4px 16px 12px; border-top: 1px dashed #DDD0B0; }
+  .groupnote { font-size: 12px; color: var(--muted); font-style: italic; padding: 8px 0 4px; }
+  .groupnote.warn { color: var(--warn); font-style: normal; font-weight: 500; }
+
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dotted #E4D9BE; }
+  .row:last-of-type { border-bottom: none; }
+  .rowmain { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .rowname { font-size: 14px; }
+  .rowamt { font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; white-space: nowrap; }
+  .unclear { font-family: 'IBM Plex Sans Devanagari'; font-weight: 400; color: var(--muted); font-size: 12.5px; }
+  .rowidx { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); min-width: 22px; }
+  .rowsource {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted);
+    background: #EFEAE0; border-radius: 4px; padding: 1px 6px; white-space: nowrap;
+  }
+  .rownote { font-size: 11.5px; color: var(--warn); padding: 0 0 6px; margin-top: -4px; }
+  .total-row { font-weight: 700; }
+  .total-row .rowamt { font-size: 15px; }
+  .divider { height: 1px; background: #DDD0B0; margin: 6px 0; }
+  .neg { color: var(--ledger-red); }
+
+  .badge { font-size: 10.5px; font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .badge-ok { background: var(--ok-bg); color: var(--ok); }
+  .badge-bad { background: var(--bad-bg); color: var(--bad); }
+  .badge-warn { background: var(--warn-bg); color: var(--warn); }
+  .badge-muted { background: #EFEAE0; color: var(--muted); }
+
+  .caution { margin: 26px 0 4px 26px; background: #FBF0DB; border: 1.5px solid var(--warn); border-radius: 6px; padding: 14px 16px; }
+  .caution .title { font-weight: 700; color: var(--warn); margin-bottom: 6px; font-size: 14px; }
+  .caution p { margin: 4px 0; font-size: 13px; color: #5c4415; }
+
+  .legend { margin: 16px 0 4px 26px; display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+  .legend span { display:flex; align-items:center; gap:5px; }
+
+  footer { margin: 34px 0 0 34px; padding-top: 14px; border-top: 1px dashed #DDD0B0; font-size: 11.5px; color: var(--muted); }
+
+  .row[data-hidden="true"] { display: none; }
+
+  @media (max-width: 520px) {
+    .cards { grid-template-columns: 1fr; }
+    h1 { font-size: 24px; }
+    header.top, .cards, .toolbar, .sectionlabel, details.group, .caution, .legend, footer { padding-left: 0; margin-left: 14px; }
+    body::before { left: 6px; }
+  }
+
+  @media print {
+    .toolbar { display: none; }
+    details.group { break-inside: avoid; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="eyebrow">सेरहड़ा ग्राम पंचायत खेल कोष</div>
+    <h1>आय व्यय रिपोर्ट — 2026</h1>
+    <div class="sub">15 अगस्त 2026 के खेल आयोजन का पूरा हिसाब</div>
+    <div class="sub en">Serhada Games — Fund In &amp; Out Report, 15 August 2026</div>
+  </header>
+
+  <div class="cards">
+    <div class="card">
+      <div class="k">कुल प्राप्त राशि · Total Received</div>
+      <div class="v pos">₹1,62,600</div>
+    </div>
+    <div class="card">
+      <div class="k">कुल खर्च (विवरण अनुसार) · Itemised expense</div>
+      <div class="v neg">₹1,97,828.75</div>
+    </div>
+    <div class="card wide hero">
+      <div class="k">2026 शेष · Net position for this event</div>
+      <div class="two-figs">
+        <div><span class="lbl">विवरण अनुसार (itemised)</span>−₹35,228.75</div>
+        <div><span class="lbl">समिति के मिलान अनुसार (ledger note)</span>₹4,645</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="k">2024 से आगे शेष · Carried from 2024</div>
+      <div class="v neg">−₹88,503</div>
+    </div>
+    <div class="card">
+      <div class="k">कुल स्थिति (itemised) · Combined position</div>
+      <div class="v neg">−₹1,23,731.75</div>
+    </div>
+  </div>
+
+  <div class="caution">
+    <div class="title">⚠ सार्वजनिक करने से पहले कृपया पढ़ें</div>
+    <p>यह रिपोर्ट हाथ से लिखे रजिस्टर की तस्वीरों से तैयार की गई है — कुछ नाम और कुछ बड़ी राशियाँ पढ़ने में कठिन थीं। ऐसी हर पंक्ति में "सत्यापित करें" का पीला नोट है।</p>
+    <p>कुल खर्च के दो आंकड़े हैं क्योंकि वे आपस में पूरी तरह मेल नहीं खाते — "विवरण अनुसार" खर्च सूची की हर पंक्ति जोड़कर, और "समिति का मिलान" नोट पर लिखा हुआ ₹1,57,955 का आंकड़ा। कृपया रजिस्टर रखने वाले से पुष्टि करके ही अंतिम आंकड़ा गाँव में साझा करें।</p>
+    <p>This report was built from photos of a handwritten register. A few names and large amounts were hard to read — each is flagged. Please verify with whoever keeps the physical register before treating any single number as final.</p>
+  </div>
+
+  <div class="legend">
+    <span><span class="badge badge-ok">प्राप्त</span> राशि मिल चुकी है</span>
+    <span><span class="badge badge-warn">लंबित</span> वादा किया, अभी नहीं मिला</span>
+    <span><span class="badge badge-bad">नहीं मिला</span> ✗ का निशान</span>
+    <span><span class="badge badge-muted">अंकित नहीं</span> रजिस्टर में निशान नहीं था</span>
+  </div>
+
+  <div class="toolbar">
+    <input id="search" type="text" placeholder="🔍 किसी नाम से खोजें... (search a name)">
+    <button class="btn" id="expandAll">सब खोलें</button>
+    <button class="btn" id="collapseAll">सब बंद करें</button>
+  </div>
+
+  <div class="sectionlabel">प्राप्त राशि — दानदाता सूची · Income</div>
+  
+    <details class="group" open>
+      <summary>
+        <span class="ticket">📗</span>
+        <span class="grouptitle">सभी दानदाता — राशि अनुसार क्रम में <span class="subtle">(सबसे बड़ी राशि सबसे पहले)</span></span>
+        <span class="grouptotal">₹1,62,600</span>
+      </summary>
+      <div class="groupbody">
+        <div class="groupnote">यह सूची सभी पन्नों (1, 2, 3, 5, 6, 7, 8, 9) की पंक्तियाँ एक साथ, राशि के अनुसार बड़े से छोटे क्रम में दिखाती है। कुल राशि ₹1,51,600 पन्नों पर लिखे कुल योग पर आधारित है — कुछ पंक्तियों का जोड़ इससे थोड़ा भिन्न हो सकता है जहाँ मूल राशि स्पष्ट नहीं थी। हर नाम के आगे वह पेज लिखा है जहाँ से यह लिया गया है।</div>
+        <div class="groupnote warn">⚠ पेज 7 पर एक और अंतर मिला: सूची की पंक्तियाँ जोड़ने पर ₹25,400 बनता है, जबकि पेज पर कुल ₹26,500 लिखा है — ₹1,100 का अंतर किसी छूटी या गलत पढ़ी गई पंक्ति से हो सकता है। कृपया रजिस्टर से मिला लें।</div>
+        <div class="groupnote warn">⚠ पेज 1 पर Joginder Thekedar, Rashmi, Anumat व Jaibal Foji की पुष्टि के बाद सूची का जोड़ ₹20,500 बनता है, जबकि पेज पर कुल ₹23,000 लिखा है — ₹2,500 का अंतर अब भी बचा है। संभव है पेज की किसी और पंक्ति की राशि गलत पढ़ी गई हो — बाकी नामों की भी जांच करें।</div>
+        <div class="groupnote warn">⚠ पेज 2 पर Tinku Dangi ₹5,100 की पुष्टि के बाद सूची का जोड़ ₹10,800 बनता है, जबकि पेज पर कुल ₹9,900 लिखा है — ₹900 अधिक। संभव है किसी और पंक्ति की राशि गलत पढ़ी गई हो।</div>
+        
+        <div class="row" data-search="sunil usa">
+          <div class="rowmain">
+            <span class="rowidx">1.</span>
+            <span class="rowname">Sunil USA</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 9</span>
+          </div>
+          <div class="rowamt">₹21,000</div>
+        </div>
+        <div class='rownote'>विकास द्वारा पुष्टि — ध्यान दें: इससे पेज का कुल ₹54,000 बनता है, जबकि पेज पर लिखा कुल ₹43,000 था — शेष 3 नाम (Ashok USA, Sanjeev/Hukam, Balvinder Z King) भी दोबारा जांचें</div>
+        <div class="row" data-search="kolhar baba sher nath">
+          <div class="rowmain">
+            <span class="rowidx">2.</span>
+            <span class="rowname">Kolhar Baba Sher Nath</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 7</span>
+          </div>
+          <div class="rowamt">₹11,000</div>
+        </div>
+        
+        <div class="row" data-search="ashok usa">
+          <div class="rowmain">
+            <span class="rowidx">3.</span>
+            <span class="rowname">Ashok USA</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 9</span>
+          </div>
+          <div class="rowamt">₹11,000</div>
+        </div>
+        
+        <div class="row" data-search="sanjeev / hukam">
+          <div class="rowmain">
+            <span class="rowidx">4.</span>
+            <span class="rowname">Sanjeev / Hukam</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 9</span>
+          </div>
+          <div class="rowamt">₹11,000</div>
+        </div>
+        
+        <div class="row" data-search="balvinder z king">
+          <div class="rowmain">
+            <span class="rowidx">5.</span>
+            <span class="rowname">Balvinder Z King</span>
+            <span class="badge badge-muted" title="not marked">अंकित नहीं</span>
+            <span class="rowsource">पेज 9</span>
+          </div>
+          <div class="rowamt">₹11,000</div>
+        </div>
+        
+        <div class="row" data-search="rashmi">
+          <div class="rowmain">
+            <span class="rowidx">6.</span>
+            <span class="rowname">Rashmi</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹5,100</div>
+        </div>
+        <div class='rownote'>विकास द्वारा पुष्टि</div>
+        <div class="row" data-search="tinku dangi">
+          <div class="rowmain">
+            <span class="rowidx">7.</span>
+            <span class="rowname">Tinku Dangi</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹5,100</div>
+        </div>
+        <div class='rownote'>GP — विकास द्वारा पुष्टि</div>
+        <div class="row" data-search="rashmi adv">
+          <div class="rowmain">
+            <span class="rowidx">8.</span>
+            <span class="rowname">Rashmi Adv</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 8</span>
+          </div>
+          <div class="rowamt">₹5,100</div>
+        </div>
+        <div class='rownote'>GP</div>
+        <div class="row" data-search="anam ajit">
+          <div class="rowmain">
+            <span class="rowidx">9.</span>
+            <span class="rowname">Anam Ajit</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 8</span>
+          </div>
+          <div class="rowamt">₹5,100</div>
+        </div>
+        
+        <div class="row" data-search="subhash">
+          <div class="rowmain">
+            <span class="rowidx">10.</span>
+            <span class="rowname">Subhash</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 7</span>
+          </div>
+          <div class="rowamt">₹5,000</div>
+        </div>
+        <div class='rownote'>CSI</div>
+        <div class="row" data-search="ramkumar (gundu)">
+          <div class="rowmain">
+            <span class="rowidx">11.</span>
+            <span class="rowname">Ramkumar (Gundu)</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 7</span>
+          </div>
+          <div class="rowamt">₹3,100</div>
+        </div>
+        
+        <div class="row" data-search="dr. malik (wife sukanwel)">
+          <div class="rowmain">
+            <span class="rowidx">12.</span>
+            <span class="rowname">Dr. Malik (wife Sukanwel)</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 7</span>
+          </div>
+          <div class="rowamt">₹3,100</div>
+        </div>
+        
+        <div class="row" data-search="pardeep hp">
+          <div class="rowmain">
+            <span class="rowidx">13.</span>
+            <span class="rowname">Pardeep HP</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 8</span>
+          </div>
+          <div class="rowamt">₹3,100</div>
+        </div>
+        
+        <div class="row" data-search="balraj lambardar">
+          <div class="rowmain">
+            <span class="rowidx">14.</span>
+            <span class="rowname">Balraj Lambardar</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 8</span>
+          </div>
+          <div class="rowamt">₹3,100</div>
+        </div>
+        
+        <div class="row" data-search="sambhal sarpanch">
+          <div class="rowmain">
+            <span class="rowidx">15.</span>
+            <span class="rowname">Sambhal Sarpanch</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 8</span>
+          </div>
+          <div class="rowamt">₹3,100</div>
+        </div>
+        
+        <div class="row" data-search="mugli">
+          <div class="rowmain">
+            <span class="rowidx">16.</span>
+            <span class="rowname">Mugli</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹2,100</div>
+        </div>
+        
+        <div class="row" data-search="saresha bolia">
+          <div class="rowmain">
+            <span class="rowidx">17.</span>
+            <span class="rowname">Saresha Bolia</span>
+            <span class="badge badge-muted" title="not marked">अंकित नहीं</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹2,100</div>
+        </div>
+        
+        <div class="row" data-search="balbir / mahar singh">
+          <div class="rowmain">
+            <span class="rowidx">18.</span>
+            <span class="rowname">Balbir / Mahar Singh</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹2,100</div>
+        </div>
+        
+        <div class="row" data-search="josinder kodha">
+          <div class="rowmain">
+            <span class="rowidx">19.</span>
+            <span class="rowname">Josinder Kodha</span>
+            <span class="badge badge-warn" title="pending">लंबित</span>
+            <span class="rowsource">पेज 8</span>
+          </div>
+          <div class="rowamt">₹2,100</div>
+        </div>
+        <div class='rownote'>✓ का निशान नहीं — शायद वादा किया गया, अभी नहीं मिला</div>
+        <div class="row" data-search="billu je">
+          <div class="rowmain">
+            <span class="rowidx">20.</span>
+            <span class="rowname">Billu JE</span>
+            <span class="badge badge-warn" title="pending">लंबित</span>
+            <span class="rowsource">पेज 8</span>
+          </div>
+          <div class="rowamt">₹2,100</div>
+        </div>
+        <div class='rownote'>✓ का निशान नहीं — शायद वादा किया गया, अभी नहीं मिला</div>
+        <div class="row" data-search="narender numbardar">
+          <div class="rowmain">
+            <span class="rowidx">21.</span>
+            <span class="rowname">Narender Numbardar</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 8</span>
+          </div>
+          <div class="rowamt">₹2,100</div>
+        </div>
+        
+        <div class="row" data-search="gld yagya">
+          <div class="rowmain">
+            <span class="rowidx">22.</span>
+            <span class="rowname">GLD Yagya</span>
+            <span class="badge badge-muted" title="not marked">अंकित नहीं</span>
+            <span class="rowsource">पेज 8</span>
+          </div>
+          <div class="rowamt">₹2,000</div>
+        </div>
+        
+        <div class="row" data-search="joginder thekedar">
+          <div class="rowmain">
+            <span class="rowidx">23.</span>
+            <span class="rowname">Joginder Thekedar</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        <div class='rownote'>विकास द्वारा पुष्टि</div>
+        <div class="row" data-search="bajinder bhanka">
+          <div class="rowmain">
+            <span class="rowidx">24.</span>
+            <span class="rowname">Bajinder Bhanka</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        <div class='rownote'>अंक ऊपर से बदला हुआ — सत्यापित करें</div>
+        <div class="row" data-search="sonu manak">
+          <div class="rowmain">
+            <span class="rowidx">25.</span>
+            <span class="rowname">Sonu Manak</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        
+        <div class="row" data-search="ishwar tent">
+          <div class="rowmain">
+            <span class="rowidx">26.</span>
+            <span class="rowname">Ishwar Tent</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        
+        <div class="row" data-search="jammu foji">
+          <div class="rowmain">
+            <span class="rowidx">27.</span>
+            <span class="rowname">Jammu Foji</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        
+        <div class="row" data-search="balkar kanshika">
+          <div class="rowmain">
+            <span class="rowidx">28.</span>
+            <span class="rowname">Balkar Kanshika</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        
+        <div class="row" data-search="baltcar s/o om parkash">
+          <div class="rowmain">
+            <span class="rowidx">29.</span>
+            <span class="rowname">Baltcar s/o Om Parkash</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 3</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        <div class='rownote'>GP</div>
+        <div class="row" data-search="balwan hp">
+          <div class="rowmain">
+            <span class="rowidx">30.</span>
+            <span class="rowname">Balwan HP</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 3</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        <div class='rownote'>GP</div>
+        <div class="row" data-search="parson sarpanch">
+          <div class="rowmain">
+            <span class="rowidx">31.</span>
+            <span class="rowname">Parson Sarpanch</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        <div class='rownote'>GP</div>
+        <div class="row" data-search="jatin dangi">
+          <div class="rowmain">
+            <span class="rowidx">32.</span>
+            <span class="rowname">Jatin Dangi</span>
+            <span class="badge badge-muted" title="not marked">अंकित नहीं</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        
+        <div class="row" data-search="sajjan s/o paritam">
+          <div class="rowmain">
+            <span class="rowidx">33.</span>
+            <span class="rowname">Sajjan s/o Paritam</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 7</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        <div class='rownote'>GP</div>
+        <div class="row" data-search="muraiya jagda">
+          <div class="rowmain">
+            <span class="rowidx">34.</span>
+            <span class="rowname">Muraiya Jagda</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 7</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        <div class='rownote'>GP</div>
+        <div class="row" data-search="raju subedar">
+          <div class="rowmain">
+            <span class="rowidx">35.</span>
+            <span class="rowname">Raju Subedar</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 8</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        
+        <div class="row" data-search="kamal kabaddi">
+          <div class="rowmain">
+            <span class="rowidx">36.</span>
+            <span class="rowname">Kamal Kabaddi</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 8</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        
+        <div class="row" data-search="dr. kamal">
+          <div class="rowmain">
+            <span class="rowidx">37.</span>
+            <span class="rowname">Dr. Kamal</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 8</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        
+        <div class="row" data-search="baljeet rof">
+          <div class="rowmain">
+            <span class="rowidx">38.</span>
+            <span class="rowname">Baljeet ROF</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 8</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        
+        <div class="row" data-search="subhash dukan">
+          <div class="rowmain">
+            <span class="rowidx">39.</span>
+            <span class="rowname">Subhash Dukan</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹1,000</div>
+        </div>
+        
+        <div class="row" data-search="rampal s/o kabool singh">
+          <div class="rowmain">
+            <span class="rowidx">40.</span>
+            <span class="rowname">Rampal s/o Kabool Singh</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 7 (अतिरिक्त पंक्ति)</span>
+          </div>
+          <div class="rowamt">₹1,000</div>
+        </div>
+        <div class='rownote'>GP — पेज 7 के कुल योग के ठीक नीचे दर्ज</div>
+        <div class="row" data-search="anumat">
+          <div class="rowmain">
+            <span class="rowidx">41.</span>
+            <span class="rowname">Anumat</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        <div class='rownote'>विकास द्वारा पुष्टि</div>
+        <div class="row" data-search="bhupinder foji">
+          <div class="rowmain">
+            <span class="rowidx">42.</span>
+            <span class="rowname">Bhupinder Foji</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="arun sharma">
+          <div class="rowmain">
+            <span class="rowidx">43.</span>
+            <span class="rowname">Arun Sharma</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="deepak gurnam">
+          <div class="rowmain">
+            <span class="rowidx">44.</span>
+            <span class="rowname">Deepak Gurnam</span>
+            <span class="badge badge-bad" title="not received">नहीं मिला</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        <div class='rownote'>❌ निशान — शायद अभी प्राप्त नहीं</div>
+        <div class="row" data-search="bholu sweets">
+          <div class="rowmain">
+            <span class="rowidx">45.</span>
+            <span class="rowname">Bholu Sweets</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="sukhvinder prajapat">
+          <div class="rowmain">
+            <span class="rowidx">46.</span>
+            <span class="rowname">Sukhvinder Prajapat</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="ravi bola">
+          <div class="rowmain">
+            <span class="rowidx">47.</span>
+            <span class="rowname">Ravi Bola</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="aman hawa singh">
+          <div class="rowmain">
+            <span class="rowidx">48.</span>
+            <span class="rowname">Aman Hawa Singh</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="abhi medicose">
+          <div class="rowmain">
+            <span class="rowidx">49.</span>
+            <span class="rowname">Abhi Medicose</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="kuldeep numbardar">
+          <div class="rowmain">
+            <span class="rowidx">50.</span>
+            <span class="rowname">Kuldeep Numbardar</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="rajesh fayaraka">
+          <div class="rowmain">
+            <span class="rowidx">51.</span>
+            <span class="rowname">Rajesh Fayaraka</span>
+            <span class="badge badge-muted" title="not marked">अंकित नहीं</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="ramesh dawan">
+          <div class="rowmain">
+            <span class="rowidx">52.</span>
+            <span class="rowname">Ramesh Dawan</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="raju farm">
+          <div class="rowmain">
+            <span class="rowidx">53.</span>
+            <span class="rowname">Raju Farm</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 3</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="manipal master">
+          <div class="rowmain">
+            <span class="rowidx">54.</span>
+            <span class="rowname">Manipal Master</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 3</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="jp s/o indar">
+          <div class="rowmain">
+            <span class="rowidx">55.</span>
+            <span class="rowname">JP s/o Indar</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 3</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="rajesh sewa">
+          <div class="rowmain">
+            <span class="rowidx">56.</span>
+            <span class="rowname">Rajesh Sewa</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 3</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="sawan">
+          <div class="rowmain">
+            <span class="rowidx">57.</span>
+            <span class="rowname">Sawan</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        <div class='rownote'>GP</div>
+        <div class="row" data-search="puneet mobile">
+          <div class="rowmain">
+            <span class="rowidx">58.</span>
+            <span class="rowname">Puneet Mobile</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="bira uday singh">
+          <div class="rowmain">
+            <span class="rowidx">59.</span>
+            <span class="rowname">Bira Uday Singh</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="krishan &amp; dalbir sound (joint)">
+          <div class="rowmain">
+            <span class="rowidx">60.</span>
+            <span class="rowname">Krishan &amp; Dalbir Sound (joint)</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        <div class='rownote'>दो दानदाताओं में साझा</div>
+        <div class="row" data-search="praveen foji">
+          <div class="rowmain">
+            <span class="rowidx">61.</span>
+            <span class="rowname">Praveen Foji</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        <div class='rownote'>GP</div>
+        <div class="row" data-search="bagha">
+          <div class="rowmain">
+            <span class="rowidx">62.</span>
+            <span class="rowname">Bagha</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="surendra koshalya">
+          <div class="rowmain">
+            <span class="rowidx">63.</span>
+            <span class="rowname">Surendra Koshalya</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="pardeep store">
+          <div class="rowmain">
+            <span class="rowidx">64.</span>
+            <span class="rowname">Pardeep Store</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        <div class='rownote'>GP</div>
+        <div class="row" data-search="balindra">
+          <div class="rowmain">
+            <span class="rowidx">65.</span>
+            <span class="rowname">Balindra</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="manoj gujjari">
+          <div class="rowmain">
+            <span class="rowidx">66.</span>
+            <span class="rowname">Manoj Gujjari</span>
+            <span class="badge badge-muted" title="not marked">अंकित नहीं</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="krishan saud">
+          <div class="rowmain">
+            <span class="rowidx">67.</span>
+            <span class="rowname">Krishan Saud</span>
+            <span class="badge badge-muted" title="not marked">अंकित नहीं</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="kuldeep master">
+          <div class="rowmain">
+            <span class="rowidx">68.</span>
+            <span class="rowname">Kuldeep Master</span>
+            <span class="badge badge-muted" title="not marked">अंकित नहीं</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="kuku master">
+          <div class="rowmain">
+            <span class="rowidx">69.</span>
+            <span class="rowname">Kuku Master</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 7</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="balli (khati)">
+          <div class="rowmain">
+            <span class="rowidx">70.</span>
+            <span class="rowname">Balli (Khati)</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 7</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        <div class='rownote'>GP</div>
+        <div class="row" data-search="gabbar je">
+          <div class="rowmain">
+            <span class="rowidx">71.</span>
+            <span class="rowname">Gabbar JE</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 8</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="dp medicose">
+          <div class="rowmain">
+            <span class="rowidx">72.</span>
+            <span class="rowname">DP Medicose</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹300</div>
+        </div>
+        
+        <div class="row" data-search="satewan kumhar">
+          <div class="rowmain">
+            <span class="rowidx">73.</span>
+            <span class="rowname">Satewan Kumhar</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹200</div>
+        </div>
+        
+        <div class="row" data-search="shyam kumhar">
+          <div class="rowmain">
+            <span class="rowidx">74.</span>
+            <span class="rowname">Shyam Kumhar</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹200</div>
+        </div>
+        
+        <div class="row" data-search="shamsher fertilizer">
+          <div class="rowmain">
+            <span class="rowidx">75.</span>
+            <span class="rowname">Shamsher Fertilizer</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹200</div>
+        </div>
+        
+        <div class="row" data-search="sandeep s/o hulami">
+          <div class="rowmain">
+            <span class="rowidx">76.</span>
+            <span class="rowname">Sandeep s/o Hulami</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 3</span>
+          </div>
+          <div class="rowamt">₹200</div>
+        </div>
+        
+        <div class="row" data-search="salinder member">
+          <div class="rowmain">
+            <span class="rowidx">77.</span>
+            <span class="rowname">Salinder Member</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 3</span>
+          </div>
+          <div class="rowamt">₹200</div>
+        </div>
+        
+        <div class="row" data-search="sandeep hukmi">
+          <div class="rowmain">
+            <span class="rowidx">78.</span>
+            <span class="rowname">Sandeep Hukmi</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹200</div>
+        </div>
+        
+        <div class="row" data-search="shoki">
+          <div class="rowmain">
+            <span class="rowidx">79.</span>
+            <span class="rowname">Shoki</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹200</div>
+        </div>
+        
+        <div class="row" data-search="krishan cycle">
+          <div class="rowmain">
+            <span class="rowidx">80.</span>
+            <span class="rowname">Krishan Cycle</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹200</div>
+        </div>
+        
+        <div class="row" data-search="satbir foji">
+          <div class="rowmain">
+            <span class="rowidx">81.</span>
+            <span class="rowname">Satbir Foji</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt">₹200</div>
+        </div>
+        
+        <div class="row" data-search="satda pandit">
+          <div class="rowmain">
+            <span class="rowidx">82.</span>
+            <span class="rowname">Satda Pandit</span>
+            <span class="badge badge-muted" title="not marked">अंकित नहीं</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt">₹200</div>
+        </div>
+        
+        <div class="row" data-search="nanna dairy">
+          <div class="rowmain">
+            <span class="rowidx">83.</span>
+            <span class="rowname">Nanna Dairy</span>
+            <span class="badge badge-muted" title="not marked">अंकित नहीं</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt">₹200</div>
+        </div>
+        
+        <div class="row" data-search="manoj vakil">
+          <div class="rowmain">
+            <span class="rowidx">84.</span>
+            <span class="rowname">Manoj Vakil</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt">₹200</div>
+        </div>
+        
+        <div class="row" data-search="dr. dk">
+          <div class="rowmain">
+            <span class="rowidx">85.</span>
+            <span class="rowname">Dr. DK</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        
+        <div class="row" data-search="aman medical">
+          <div class="rowmain">
+            <span class="rowidx">86.</span>
+            <span class="rowname">Aman Medical</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        
+        <div class="row" data-search="naveen mobile">
+          <div class="rowmain">
+            <span class="rowidx">87.</span>
+            <span class="rowname">Naveen Mobile</span>
+            <span class="badge badge-muted" title="not marked">अंकित नहीं</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        
+        <div class="row" data-search="baljeet spare">
+          <div class="rowmain">
+            <span class="rowidx">88.</span>
+            <span class="rowname">Baljeet Spare</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        
+        <div class="row" data-search="pawan dharambir">
+          <div class="rowmain">
+            <span class="rowidx">89.</span>
+            <span class="rowname">Pawan Dharambir</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        
+        <div class="row" data-search="satnam sweet">
+          <div class="rowmain">
+            <span class="rowidx">90.</span>
+            <span class="rowname">Satnam Sweet</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        
+        <div class="row" data-search="salinder panchal">
+          <div class="rowmain">
+            <span class="rowidx">91.</span>
+            <span class="rowname">Salinder Panchal</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        
+        <div class="row" data-search="dk dharma">
+          <div class="rowmain">
+            <span class="rowidx">92.</span>
+            <span class="rowname">DK Dharma</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        
+        <div class="row" data-search="sandeep">
+          <div class="rowmain">
+            <span class="rowidx">93.</span>
+            <span class="rowname">Sandeep</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        <div class='rownote'>GP</div>
+        <div class="row" data-search="guri">
+          <div class="rowmain">
+            <span class="rowidx">94.</span>
+            <span class="rowname">Guri</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        <div class='rownote'>GP</div>
+        <div class="row" data-search="guri">
+          <div class="rowmain">
+            <span class="rowidx">95.</span>
+            <span class="rowname">Guri</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        
+        <div class="row" data-search="sonu driver">
+          <div class="rowmain">
+            <span class="rowidx">96.</span>
+            <span class="rowname">Sonu Driver</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 5</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        
+        <div class="row" data-search="deepak padat">
+          <div class="rowmain">
+            <span class="rowidx">97.</span>
+            <span class="rowname">Deepak Padat</span>
+            <span class="badge badge-muted" title="not marked">अंकित नहीं</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        
+        <div class="row" data-search="dinesh sethi garam">
+          <div class="rowmain">
+            <span class="rowidx">98.</span>
+            <span class="rowname">Dinesh Sethi Garam</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        
+        <div class="row" data-search="sela">
+          <div class="rowmain">
+            <span class="rowidx">99.</span>
+            <span class="rowname">Sela</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        
+        <div class="row" data-search="pawan pandat">
+          <div class="rowmain">
+            <span class="rowidx">100.</span>
+            <span class="rowname">Pawan Pandat</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹50</div>
+        </div>
+        
+        <div class="row" data-search="nini motor cycle">
+          <div class="rowmain">
+            <span class="rowidx">101.</span>
+            <span class="rowname">Nini Motor Cycle</span>
+            <span class="badge badge-ok" title="received">प्राप्त</span>
+            <span class="rowsource">पेज 2</span>
+          </div>
+          <div class="rowamt">₹50</div>
+        </div>
+        
+        <div class="row" data-search="jaibal foji">
+          <div class="rowmain">
+            <span class="rowidx">102.</span>
+            <span class="rowname">Jaibal Foji</span>
+            <span class="badge badge-bad" title="not received">नहीं मिला</span>
+            <span class="rowsource">पेज 1</span>
+          </div>
+          <div class="rowamt">₹0</div>
+        </div>
+        <div class='rownote'>विकास द्वारा पुष्टि — कोई राशि नहीं दी</div>
+        <div class="row" data-search="sulendra member">
+          <div class="rowmain">
+            <span class="rowidx">103.</span>
+            <span class="rowname">Sulendra Member</span>
+            <span class="badge badge-muted" title="not marked">अंकित नहीं</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt"><span class='unclear'>अस्पष्ट</span></div>
+        </div>
+        <div class='rownote'>राशि स्पष्ट नहीं</div>
+        <div class="row" data-search="sajni">
+          <div class="rowmain">
+            <span class="rowidx">104.</span>
+            <span class="rowname">Sajni</span>
+            <span class="badge badge-muted" title="not marked">अंकित नहीं</span>
+            <span class="rowsource">पेज 6</span>
+          </div>
+          <div class="rowamt"><span class='unclear'>अस्पष्ट</span></div>
+        </div>
+        <div class='rownote'>राशि स्पष्ट नहीं</div>
+      </div>
+    </details>
+
+  <div class="sectionlabel">व्यय विवरण · Expenses</div>
+  
+    <details class="group" open>
+      <summary>
+        <span class="ticket">📕</span>
+        <span class="grouptitle">सभी खर्च — राशि अनुसार क्रम में <span class="subtle">(सबसे बड़ी राशि सबसे पहले)</span></span>
+        <span class="grouptotal">₹1,97,828.75</span>
+      </summary>
+      <div class="groupbody">
+        <div class="groupnote">यह सूची सभी दर्ज खर्चों को एक साथ, राशि के अनुसार बड़े से छोटे क्रम में दिखाती है।</div>
+        
+        <div class="row" data-search="इनाम — फुटबॉल (मुख्य विजेता)">
+          <div class="rowmain">
+            <span class="rowidx">1.</span>
+            <span class="rowname">इनाम — फुटबॉल (मुख्य विजेता)</span>
+          </div>
+          <div class="rowamt">₹31,000</div>
+        </div>
+        
+        <div class="row" data-search="रेफरी शुल्क">
+          <div class="rowmain">
+            <span class="rowidx">2.</span>
+            <span class="rowname">रेफरी शुल्क</span>
+          </div>
+          <div class="rowamt">₹28,500</div>
+        </div>
+        <div class='rownote'>विकास द्वारा पुष्टि</div>
+        <div class="row" data-search="ट्रॉफी">
+          <div class="rowmain">
+            <span class="rowidx">3.</span>
+            <span class="rowname">ट्रॉफी</span>
+          </div>
+          <div class="rowamt">₹19,000</div>
+        </div>
+        
+        <div class="row" data-search="टेंट किराया">
+          <div class="rowmain">
+            <span class="rowidx">4.</span>
+            <span class="rowname">टेंट किराया</span>
+          </div>
+          <div class="rowamt">₹18,000</div>
+        </div>
+        <div class='rownote'>विकास द्वारा पुष्टि</div>
+        <div class="row" data-search="पासी">
+          <div class="rowmain">
+            <span class="rowidx">5.</span>
+            <span class="rowname">पासी</span>
+          </div>
+          <div class="rowamt">₹15,200</div>
+        </div>
+        <div class='rownote'>विकास द्वारा पुष्टि — यह खर्च ही है</div>
+        <div class="row" data-search="खिलाड़ियों की जर्सी">
+          <div class="rowmain">
+            <span class="rowidx">6.</span>
+            <span class="rowname">खिलाड़ियों की जर्सी</span>
+          </div>
+          <div class="rowamt">₹11,000</div>
+        </div>
+        
+        <div class="row" data-search="इनाम — फुटबॉल">
+          <div class="rowmain">
+            <span class="rowidx">7.</span>
+            <span class="rowname">इनाम — फुटबॉल</span>
+          </div>
+          <div class="rowamt">₹7,100</div>
+        </div>
+        
+        <div class="row" data-search="कमेंटेटर — a.k. बरनाला">
+          <div class="rowmain">
+            <span class="rowidx">8.</span>
+            <span class="rowname">कमेंटेटर — A.K. बरनाला</span>
+          </div>
+          <div class="rowamt">₹6,000</div>
+        </div>
+        
+        <div class="row" data-search="क्रिकेट इनाम राशि">
+          <div class="rowmain">
+            <span class="rowidx">9.</span>
+            <span class="rowname">क्रिकेट इनाम राशि</span>
+          </div>
+          <div class="rowamt">₹5,100</div>
+        </div>
+        <div class='rownote'>विकास द्वारा पुष्टि — यह खर्च ही है</div>
+        <div class="row" data-search="इनाम — क्रिकेट (litani)">
+          <div class="rowmain">
+            <span class="rowidx">10.</span>
+            <span class="rowname">इनाम — क्रिकेट (Litani)</span>
+          </div>
+          <div class="rowamt">₹5,100</div>
+        </div>
+        
+        <div class="row" data-search="इनाम — फुटबॉल (munnaredi)">
+          <div class="rowmain">
+            <span class="rowidx">11.</span>
+            <span class="rowname">इनाम — फुटबॉल (Munnaredi)</span>
+          </div>
+          <div class="rowamt">₹5,100</div>
+        </div>
+        
+        <div class="row" data-search="खन्ना स्पोर्ट्स — फुटबॉल नेट">
+          <div class="rowmain">
+            <span class="rowidx">12.</span>
+            <span class="rowname">खन्ना स्पोर्ट्स — फुटबॉल नेट</span>
+          </div>
+          <div class="rowamt">₹5,100</div>
+        </div>
+        <div class='rownote'>विकास द्वारा पुष्टि</div>
+        <div class="row" data-search="कूलर किराया">
+          <div class="rowmain">
+            <span class="rowidx">13.</span>
+            <span class="rowname">कूलर किराया</span>
+          </div>
+          <div class="rowamt">₹4,800</div>
+        </div>
+        <div class='rownote'>विकास द्वारा पुष्टि</div>
+        <div class="row" data-search="सत्यवान — सब्ज़ी/सामान">
+          <div class="rowmain">
+            <span class="rowidx">14.</span>
+            <span class="rowname">सत्यवान — सब्ज़ी/सामान</span>
+          </div>
+          <div class="rowamt">₹4,500</div>
+        </div>
+        <div class='rownote'>नाम आंशिक अस्पष्ट — सत्यापित करें</div>
+        <div class="row" data-search="पंजाब जर्सी / खिलाड़ी">
+          <div class="rowmain">
+            <span class="rowidx">15.</span>
+            <span class="rowname">पंजाब जर्सी / खिलाड़ी</span>
+          </div>
+          <div class="rowamt">₹4,000</div>
+        </div>
+        
+        <div class="row" data-search="दही + डिस्पोज़ल + सामान">
+          <div class="rowmain">
+            <span class="rowidx">16.</span>
+            <span class="rowname">दही + डिस्पोज़ल + सामान</span>
+          </div>
+          <div class="rowamt">₹3,000</div>
+        </div>
+        
+        <div class="row" data-search="कूडो राम">
+          <div class="rowmain">
+            <span class="rowidx">17.</span>
+            <span class="rowname">कूडो राम</span>
+          </div>
+          <div class="rowamt">₹2,800</div>
+        </div>
+        <div class='rownote'>विकास द्वारा पुष्टि — यह खर्च ही है</div>
+        <div class="row" data-search="मास्टर को कैश दिया">
+          <div class="rowmain">
+            <span class="rowidx">18.</span>
+            <span class="rowname">मास्टर को कैश दिया</span>
+          </div>
+          <div class="rowamt">₹1,600</div>
+        </div>
+        
+        <div class="row" data-search="बीज बानिया">
+          <div class="rowmain">
+            <span class="rowidx">19.</span>
+            <span class="rowname">बीज बानिया</span>
+          </div>
+          <div class="rowamt">₹1,570</div>
+        </div>
+        <div class='rownote'>मूल में &#x27;15.70&#x27; लिखा — ₹1,570 माना गया</div>
+        <div class="row" data-search="खिलाड़ी — मुना (राहुल)">
+          <div class="rowmain">
+            <span class="rowidx">20.</span>
+            <span class="rowname">खिलाड़ी — मुना (राहुल)</span>
+          </div>
+          <div class="rowamt">₹1,500</div>
+        </div>
+        
+        <div class="row" data-search="दूध">
+          <div class="rowmain">
+            <span class="rowidx">21.</span>
+            <span class="rowname">दूध</span>
+          </div>
+          <div class="rowamt">₹1,500</div>
+        </div>
+        
+        <div class="row" data-search="सतनाम">
+          <div class="rowmain">
+            <span class="rowidx">22.</span>
+            <span class="rowname">सतनाम</span>
+          </div>
+          <div class="rowamt">₹1,400</div>
+        </div>
+        <div class='rownote'>विकास द्वारा पुष्टि — यह खर्च ही है</div>
+        <div class="row" data-search="बैनर">
+          <div class="rowmain">
+            <span class="rowidx">23.</span>
+            <span class="rowname">बैनर</span>
+          </div>
+          <div class="rowamt">₹1,200</div>
+        </div>
+        
+        <div class="row" data-search="रस्सा-कस्सी — प्रथम पुरस्कार">
+          <div class="rowmain">
+            <span class="rowidx">24.</span>
+            <span class="rowname">रस्सा-कस्सी — प्रथम पुरस्कार</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        
+        <div class="row" data-search="बुज़ुर्गों की दौड़ — प्रथम">
+          <div class="rowmain">
+            <span class="rowidx">25.</span>
+            <span class="rowname">बुज़ुर्गों की दौड़ — प्रथम</span>
+          </div>
+          <div class="rowamt">₹1,100</div>
+        </div>
+        
+        <div class="row" data-search="ई-रिक्शा किराया">
+          <div class="rowmain">
+            <span class="rowidx">26.</span>
+            <span class="rowname">ई-रिक्शा किराया</span>
+          </div>
+          <div class="rowamt">₹1,000</div>
+        </div>
+        <div class='rownote'>विवरण अस्पष्ट — सत्यापित करें</div>
+        <div class="row" data-search="डिस्पोज़ल">
+          <div class="rowmain">
+            <span class="rowidx">27.</span>
+            <span class="rowname">डिस्पोज़ल</span>
+          </div>
+          <div class="rowamt">₹1,000</div>
+        </div>
+        
+        <div class="row" data-search="हिल (अस्पष्ट मद)">
+          <div class="rowmain">
+            <span class="rowidx">28.</span>
+            <span class="rowname">हिल (अस्पष्ट मद)</span>
+          </div>
+          <div class="rowamt">₹1,000</div>
+        </div>
+        <div class='rownote'>विवरण अस्पष्ट — सत्यापित करें</div>
+        <div class="row" data-search="बाइक तेल (गौरव + जतिन)">
+          <div class="rowmain">
+            <span class="rowidx">29.</span>
+            <span class="rowname">बाइक तेल (गौरव + जतिन)</span>
+          </div>
+          <div class="rowamt">₹1,000</div>
+        </div>
+        
+        <div class="row" data-search="अनिल जी. को दिए">
+          <div class="rowmain">
+            <span class="rowidx">30.</span>
+            <span class="rowname">अनिल जी. को दिए</span>
+          </div>
+          <div class="rowamt">₹1,000</div>
+        </div>
+        
+        <div class="row" data-search="खिलाड़ी — काली">
+          <div class="rowmain">
+            <span class="rowidx">31.</span>
+            <span class="rowname">खिलाड़ी — काली</span>
+          </div>
+          <div class="rowamt">₹800</div>
+        </div>
+        
+        <div class="row" data-search="सेटा (विक्रेता)">
+          <div class="rowmain">
+            <span class="rowidx">32.</span>
+            <span class="rowname">सेटा (विक्रेता)</span>
+          </div>
+          <div class="rowamt">₹730</div>
+        </div>
+        <div class='rownote'>नाम अस्पष्ट — सत्यापित करें</div>
+        <div class="row" data-search="समोसे + कैटरिंग">
+          <div class="rowmain">
+            <span class="rowidx">33.</span>
+            <span class="rowname">समोसे + कैटरिंग</span>
+          </div>
+          <div class="rowamt">₹600</div>
+        </div>
+        
+        <div class="row" data-search="मटका दौड़ — प्रथम">
+          <div class="rowmain">
+            <span class="rowidx">34.</span>
+            <span class="rowname">मटका दौड़ — प्रथम</span>
+          </div>
+          <div class="rowamt">₹600</div>
+        </div>
+        
+        <div class="row" data-search="रवि इलेक्ट्रिक">
+          <div class="rowmain">
+            <span class="rowidx">35.</span>
+            <span class="rowname">रवि इलेक्ट्रिक</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="रोटी">
+          <div class="rowmain">
+            <span class="rowidx">36.</span>
+            <span class="rowname">रोटी</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="पिसाई खर्च (कर्ज़ा पिसाई)">
+          <div class="rowmain">
+            <span class="rowidx">37.</span>
+            <span class="rowname">पिसाई खर्च (कर्ज़ा पिसाई)</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="रस्सा-कस्सी — द्वितीय पुरस्कार">
+          <div class="rowmain">
+            <span class="rowidx">38.</span>
+            <span class="rowname">रस्सा-कस्सी — द्वितीय पुरस्कार</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="मटका दौड़ — द्वितीय">
+          <div class="rowmain">
+            <span class="rowidx">39.</span>
+            <span class="rowname">मटका दौड़ — द्वितीय</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="बुज़ुर्गों की दौड़ — द्वितीय">
+          <div class="rowmain">
+            <span class="rowidx">40.</span>
+            <span class="rowname">बुज़ुर्गों की दौड़ — द्वितीय</span>
+          </div>
+          <div class="rowamt">₹500</div>
+        </div>
+        
+        <div class="row" data-search="हरित स्टोर (harit store)">
+          <div class="rowmain">
+            <span class="rowidx">41.</span>
+            <span class="rowname">हरित स्टोर (Harit Store)</span>
+          </div>
+          <div class="rowamt">₹278.75</div>
+        </div>
+        
+        <div class="row" data-search="चम्मच दौड़ — प्रथम">
+          <div class="rowmain">
+            <span class="rowidx">42.</span>
+            <span class="rowname">चम्मच दौड़ — प्रथम</span>
+          </div>
+          <div class="rowamt">₹200</div>
+        </div>
+        
+        <div class="row" data-search="बलजीत गौरव">
+          <div class="rowmain">
+            <span class="rowidx">43.</span>
+            <span class="rowname">बलजीत गौरव</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        <div class='rownote'>नाम अस्पष्ट — सत्यापित करें</div>
+        <div class="row" data-search="बोरी दौड़ (u-14) — प्रथम">
+          <div class="rowmain">
+            <span class="rowidx">44.</span>
+            <span class="rowname">बोरी दौड़ (u-14) — प्रथम</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        
+        <div class="row" data-search="चम्मच दौड़ — द्वितीय">
+          <div class="rowmain">
+            <span class="rowidx">45.</span>
+            <span class="rowname">चम्मच दौड़ — द्वितीय</span>
+          </div>
+          <div class="rowamt">₹100</div>
+        </div>
+        
+        <div class="row" data-search="बोरी दौड़ (u-14) — द्वितीय">
+          <div class="rowmain">
+            <span class="rowidx">46.</span>
+            <span class="rowname">बोरी दौड़ (u-14) — द्वितीय</span>
+          </div>
+          <div class="rowamt">₹50</div>
+        </div>
+        
+      </div>
+    </details>
+  
+
+  <div class="sectionlabel">अतिरिक्त संदर्भ · Reference</div>
+  
+    <details class="group">
+      <summary>
+        <span class="ticket">📒</span>
+        <span class="grouptitle">मिलान नोट <span class="subtle">(समिति का अपना हिसाब)</span></span>
+        <span class="grouptotal">₹1,57,955</span>
+      </summary>
+      <div class="groupbody">
+        <div class="groupnote">यह पेज खुद एक छोटी खर्च सूची और फिर एक मिलान (reconciliation) दिखाता है — जैसा मूल में लिखा है:</div>
+        
+    <div class="row">
+      <div class="rowmain"><span class="rowname">रमेश — RO (पानी)</span></div>
+      <div class="rowamt">₹7,000</div>
+    </div>
+    <div class="row">
+      <div class="rowmain"><span class="rowname">टेल्लू बानिया</span></div>
+      <div class="rowamt">₹4,400</div>
+    </div>
+    <div class="row">
+      <div class="rowmain"><span class="rowname">सुतड़ा पंडित (कुल्ही)</span></div>
+      <div class="rowamt">₹2,080</div>
+    </div>
+    <div class="row">
+      <div class="rowmain"><span class="rowname">बच्चों के समोसे + कैटरिंग</span></div>
+      <div class="rowamt">₹1,000</div>
+    </div>
+        <div class="row total-row">
+          <div class="rowmain"><span class="rowname">इन 4 मदों का योग</span></div>
+          <div class="rowamt">₹14,480</div>
+        </div>
+        <div class="divider"></div>
+        <div class="row">
+          <div class="rowmain"><span class="rowname">पेज पर अंकित "कुल" खर्च (running figure)</span></div>
+          <div class="rowamt">₹1,57,955</div>
+        </div>
+        <div class="row">
+          <div class="rowmain"><span class="rowname">आय पक्ष — "मास्टर" द्वारा दिए गए</span></div>
+          <div class="rowamt">₹1,44,000</div>
+        </div>
+        <div class="row">
+          <div class="rowmain"><span class="rowname">आय पक्ष — कलेक्शन</span></div>
+          <div class="rowamt">₹8,200</div>
+        </div>
+        <div class="row">
+          <div class="rowmain"><span class="rowname">आय पक्ष — एंट्री शुल्क (ओपन + पेयर)</span></div>
+          <div class="rowamt">₹8,000</div>
+        </div>
+        <div class="row total-row">
+          <div class="rowmain"><span class="rowname">आय पक्ष कुल योग</span></div>
+          <div class="rowamt">₹1,60,200</div>
+        </div>
+        <div class="row total-row">
+          <div class="rowmain"><span class="rowname">शेष (आय पक्ष − खर्च)</span></div>
+          <div class="rowamt">₹2,245</div>
+        </div>
+        <div class="groupnote warn">⚠ यह आंकड़े साफ नहीं करते कि यह ऊपर की खर्च सूची में पहले से शामिल हैं या अलग हैं — कृपया रजिस्टर रखने वाले से पुष्टि करें, इसे ऊपर के योग में सीधे न जोड़ें।</div>
+      </div>
+    </details>
+  
+    <details class="group">
+      <summary>
+        <span class="ticket">📘</span>
+        <span class="grouptitle">पिछले वर्ष का संदर्भ <span class="subtle">(15 अगस्त 2024 आयोजन)</span></span>
+        <span class="grouptotal">−₹88,503</span>
+      </summary>
+      <div class="groupbody">
+        <div class="row"><div class="rowmain"><span class="rowname">2024 आयोजन — कुल आय</span></div><div class="rowamt">₹2,80,707</div></div>
+        <div class="row"><div class="rowmain"><span class="rowname">2024 आयोजन — कुल खर्च</span></div><div class="rowamt">₹3,69,210</div></div>
+        <div class="row total-row"><div class="rowmain"><span class="rowname">2026 में आगे बढ़ा शेष (घाटा)</span></div><div class="rowamt neg">−₹88,503</div></div>
+        <div class="groupnote">स्रोत: "15th Aug 2025 Games Serhada (In & outflow)" सारांश PDF, अपडेटेड 1-Sep-2025</div>
+      </div>
+    </details>
+
+  <footer>
+    तैयार किया गया / compiled 28 अगस्त 2026 · स्रोत: समिति के हस्तलिखित रजिस्टर की तस्वीरें व पिछले वर्ष की सारांश रिपोर्ट। यह पृष्ठ केवल जानकारी हेतु है, अंतिम लेखा-जोखा नहीं।
+  </footer>
+
+</div>
+
+<script>
+document.getElementById('expandAll').addEventListener('click', function() {
+  document.querySelectorAll('details.group').forEach(function(d) { d.open = true; });
+});
+document.getElementById('collapseAll').addEventListener('click', function() {
+  document.querySelectorAll('details.group').forEach(function(d) { d.open = false; });
+});
+
+var searchBox = document.getElementById('search');
+var forcedOpen = [];
+searchBox.addEventListener('input', function() {
+  var q = searchBox.value.trim().toLowerCase();
+  forcedOpen.forEach(function(d) { d.open = false; });
+  forcedOpen = [];
+  document.querySelectorAll('.row[data-search]').forEach(function(row) {
+    var match = q === '' || row.getAttribute('data-search').indexOf(q) !== -1;
+    row.setAttribute('data-hidden', match ? 'false' : 'true');
+    if (match && q !== '') {
+      var d = row.closest('details.group');
+      if (d && !d.open) { d.open = true; forcedOpen.push(d); }
+    }
+  });
+});
+</script>
+
+</body>
+</html>
