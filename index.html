@@ -56,7 +56,7 @@
   header.top { padding: 28px 0 18px 34px; }
   .eyebrow {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
+    font-size: 17px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--ledger-red-dark);
@@ -182,6 +182,8 @@
     details.group { break-inside: avoid; }
     body { background: #fff; }
   }
+  .cards.simple .card .v { font-size: 28px; }
+  .cards.simple .card .k { font-size: 14px; }
 </style>
 </head>
 <body>
@@ -194,37 +196,15 @@
     <div class="sub en">Serhada Games — Fund In &amp; Out Report, 15 August 2026</div>
   </header>
 
-  <div class="cards">
+  <div class="cards simple">
     <div class="card">
-      <div class="k">कुल प्राप्त राशि · Total Received</div>
-      <div class="v pos">₹1,57,300</div>
-    </div>
-    <div class="card">
-      <div class="k">कुल खर्च (विवरण अनुसार) · Itemised expense</div>
-      <div class="v neg">₹2,25,425</div>
-    </div>
-    <div class="card wide hero">
-      <div class="k">2026 शेष · Net position for this event</div>
-      <div class="two-figs">
-        <div><span class="lbl">विवरण अनुसार (itemised)</span>−₹68,125</div>
-        <div><span class="lbl">समिति के मिलान अनुसार (ledger note)</span>−₹655</div>
-      </div>
+      <div class="k">कुल प्राप्त राशि · Received</div>
+      <div class="v pos">₹1,65,300</div>
     </div>
     <div class="card">
-      <div class="k">2024 से आगे शेष · Carried from 2024</div>
-      <div class="v neg">−₹88,503</div>
+      <div class="k">कुल खर्च · Cost (Expense)</div>
+      <div class="v neg">₹2,38,950</div>
     </div>
-    <div class="card">
-      <div class="k">कुल स्थिति (itemised) · Combined position</div>
-      <div class="v neg">−₹1,56,628</div>
-    </div>
-  </div>
-
-  <div class="caution">
-    <div class="title">⚠ सार्वजनिक करने से पहले कृपया पढ़ें</div>
-    <p>यह रिपोर्ट हाथ से लिखे रजिस्टर की तस्वीरों से तैयार की गई है — कुछ नाम और कुछ बड़ी राशियाँ पढ़ने में कठिन थीं। ऐसी हर पंक्ति में "सत्यापित करें" का पीला नोट है।</p>
-    <p>कुल खर्च के दो आंकड़े हैं क्योंकि वे आपस में पूरी तरह मेल नहीं खाते — "विवरण अनुसार" खर्च सूची की हर पंक्ति जोड़कर, और "समिति का मिलान" नोट पर लिखा हुआ ₹1,57,955 का आंकड़ा। कृपया रजिस्टर रखने वाले से पुष्टि करके ही अंतिम आंकड़ा गाँव में साझा करें।</p>
-    <p>This report was built from photos of a handwritten register. A few names and large amounts were hard to read — each is flagged. Please verify with whoever keeps the physical register before treating any single number as final.</p>
   </div>
 
   <div class="legend">
@@ -246,10 +226,10 @@
       <summary>
         <span class="ticket">📗</span>
         <span class="grouptitle">सभी दानदाता — राशि अनुसार क्रम में <span class="subtle">(सबसे बड़ी राशि सबसे पहले)</span></span>
-        <span class="grouptotal income">₹1,57,300</span>
+        <span class="grouptotal income">₹1,65,300</span>
       </summary>
       <div class="groupbody">
-        <div class="groupnote">यह सूची सभी पन्नों (1, 2, 3, 5, 6, 7, 8, 9) की पंक्तियाँ एक साथ, राशि के अनुसार बड़े से छोटे क्रम में दिखाती है। कुल राशि ₹1,51,600 पन्नों पर लिखे कुल योग पर आधारित है — कुछ पंक्तियों का जोड़ इससे थोड़ा भिन्न हो सकता है जहाँ मूल राशि स्पष्ट नहीं थी। हर नाम के आगे वह पेज लिखा है जहाँ से यह लिया गया है।</div>
+        <div class="groupnote">यह सूची सभी पन्नों (1, 2, 3, 5, 6, 7, 8, 9) की पंक्तियाँ एक साथ, राशि के अनुसार बड़े से छोटे क्रम में दिखाती है। कुल राशि ₹1,65,300 रजिस्टर के आय पक्ष के कुल योग के अनुसार है; सूची में दर्ज नामों का जोड़ इससे कम है। हर नाम के आगे वह पेज लिखा है जहाँ से यह लिया गया है।</div>
         
         <div class="row" data-search="sunil usa">
           <div class="rowmain">
@@ -1270,15 +1250,15 @@
       <summary>
         <span class="ticket">📕</span>
         <span class="grouptitle">सभी खर्च — राशि अनुसार क्रम में <span class="subtle">(सबसे बड़ी राशि सबसे पहले)</span></span>
-        <span class="grouptotal">₹2,25,425</span>
+        <span class="grouptotal">₹2,38,950</span>
       </summary>
       <div class="groupbody">
         <div class="groupnote">यह सूची सभी दर्ज खर्चों को एक साथ, राशि के अनुसार बड़े से छोटे क्रम में दिखाती है।</div>
         
-        <div class="row" data-search="इनाम — फुटबॉल (मुख्य विजेता)">
+        <div class="row" data-search="इनाम बाहरी (फुटबॉल)">
           <div class="rowmain">
             <span class="rowidx">1.</span>
-            <span class="rowname">इनाम — फुटबॉल (मुख्य विजेता)</span>
+            <span class="rowname">इनाम बाहरी (फुटबॉल)</span>
           </div>
           <div class="rowamt">₹31,000</div>
         </div>
@@ -1291,10 +1271,10 @@
           <div class="rowamt">₹28,500</div>
         </div>
         
-        <div class="row" data-search="हरित स्टोर (harit store)">
+        <div class="row" data-search="प्रदीप हरित स्टोर">
           <div class="rowmain">
             <span class="rowidx">3.</span>
-            <span class="rowname">हरित स्टोर (Harit Store)</span>
+            <span class="rowname">प्रदीप हरित स्टोर</span>
           </div>
           <div class="rowamt">₹27,875</div>
         </div>
@@ -1323,28 +1303,28 @@
           <div class="rowamt">₹15,200</div>
         </div>
         
-        <div class="row" data-search="खिलाड़ियों की जर्सी">
+        <div class="row" data-search="प्लेयर्स">
           <div class="rowmain">
             <span class="rowidx">7.</span>
-            <span class="rowname">खिलाड़ियों की जर्सी</span>
+            <span class="rowname">प्लेयर्स</span>
           </div>
-          <div class="rowamt">₹11,000</div>
+          <div class="rowamt">₹11,500</div>
         </div>
         
-        <div class="row" data-search="इनाम — फुटबॉल">
+        <div class="row" data-search="u17 प्रथम — लितानी (litani)">
           <div class="rowmain">
             <span class="rowidx">8.</span>
-            <span class="rowname">इनाम — फुटबॉल</span>
+            <span class="rowname">U17 प्रथम — लितानी (Litani)</span>
           </div>
           <div class="rowamt">₹7,100</div>
         </div>
         
-        <div class="row" data-search="खन्ना स्पोर्ट्स">
+        <div class="row" data-search="रमेश ro">
           <div class="rowmain">
             <span class="rowidx">9.</span>
-            <span class="rowname">खन्ना स्पोर्ट्स</span>
+            <span class="rowname">रमेश RO</span>
           </div>
-          <div class="rowamt">₹6,100</div>
+          <div class="rowamt">₹7,000</div>
         </div>
         
         <div class="row" data-search="कमेंटेटर — a.k. बरनाला">
@@ -1355,97 +1335,137 @@
           <div class="rowamt">₹6,000</div>
         </div>
         
-        <div class="row" data-search="क्रिकेट इनाम राशि">
+        <div class="row" data-search="क्रिकेट इनाम">
           <div class="rowmain">
             <span class="rowidx">11.</span>
-            <span class="rowname">क्रिकेट इनाम राशि</span>
+            <span class="rowname">क्रिकेट इनाम</span>
           </div>
           <div class="rowamt">₹5,100</div>
         </div>
         
-        <div class="row" data-search="इनाम — क्रिकेट (litani)">
+        <div class="row" data-search="u17 द्वितीय — मुन्नारेडी (munnaredi)">
           <div class="rowmain">
             <span class="rowidx">12.</span>
-            <span class="rowname">इनाम — क्रिकेट (Litani)</span>
+            <span class="rowname">U17 द्वितीय — मुन्नारेडी (Munnaredi)</span>
           </div>
           <div class="rowamt">₹5,100</div>
         </div>
         
-        <div class="row" data-search="इनाम — फुटबॉल (munnaredi)">
+        <div class="row" data-search="खन्ना स्पोर्ट्स">
           <div class="rowmain">
             <span class="rowidx">13.</span>
-            <span class="rowname">इनाम — फुटबॉल (Munnaredi)</span>
+            <span class="rowname">खन्ना स्पोर्ट्स</span>
           </div>
           <div class="rowamt">₹5,100</div>
+        </div>
+        
+        <div class="row" data-search="पंजाब प्लेयर">
+          <div class="rowmain">
+            <span class="rowidx">14.</span>
+            <span class="rowname">पंजाब प्लेयर</span>
+          </div>
+          <div class="rowamt">₹5,000</div>
         </div>
         
         <div class="row" data-search="कूलर किराया">
           <div class="rowmain">
-            <span class="rowidx">14.</span>
+            <span class="rowidx">15.</span>
             <span class="rowname">कूलर किराया</span>
           </div>
           <div class="rowamt">₹4,800</div>
         </div>
         
-        <div class="row" data-search="सत्यवान — सब्ज़ी/सामान">
+        <div class="row" data-search="सत्यवान प्रजापत">
           <div class="rowmain">
-            <span class="rowidx">15.</span>
-            <span class="rowname">सत्यवान — सब्ज़ी/सामान</span>
+            <span class="rowidx">16.</span>
+            <span class="rowname">सत्यवान प्रजापत</span>
           </div>
           <div class="rowamt">₹4,500</div>
         </div>
-        <div class='rownote'>नाम आंशिक अस्पष्ट — सत्यापित करें</div>
-        <div class="row" data-search="पंजाब जर्सी / खिलाड़ी">
-          <div class="rowmain">
-            <span class="rowidx">16.</span>
-            <span class="rowname">पंजाब जर्सी / खिलाड़ी</span>
-          </div>
-          <div class="rowamt">₹4,000</div>
-        </div>
         
-        <div class="row" data-search="दही + डिस्पोज़ल + सामान">
+        <div class="row" data-search="टल्लू बानिया">
           <div class="rowmain">
             <span class="rowidx">17.</span>
-            <span class="rowname">दही + डिस्पोज़ल + सामान</span>
+            <span class="rowname">टल्लू बानिया</span>
           </div>
-          <div class="rowamt">₹3,000</div>
+          <div class="rowamt">₹4,400</div>
         </div>
         
-        <div class="row" data-search="कूडो राम">
+        <div class="row" data-search="दही + डिस्पोजल + सामान">
           <div class="rowmain">
             <span class="rowidx">18.</span>
-            <span class="rowname">कूडो राम</span>
+            <span class="rowname">दही + डिस्पोजल + सामान</span>
+          </div>
+          <div class="rowamt">₹3,500</div>
+        </div>
+        
+        <div class="row" data-search="कुड़ा कुमार">
+          <div class="rowmain">
+            <span class="rowidx">19.</span>
+            <span class="rowname">कुड़ा कुमार</span>
           </div>
           <div class="rowamt">₹2,800</div>
         </div>
         
-        <div class="row" data-search="मास्टर को कैश दिया">
+        <div class="row" data-search="सुतड़ा पंडित (कुल्ही)">
           <div class="rowmain">
-            <span class="rowidx">19.</span>
-            <span class="rowname">मास्टर को कैश दिया</span>
+            <span class="rowidx">20.</span>
+            <span class="rowname">सुतड़ा पंडित (कुल्ही)</span>
+          </div>
+          <div class="rowamt">₹2,080</div>
+        </div>
+        
+        <div class="row" data-search="कमेटी रिक्शा">
+          <div class="rowmain">
+            <span class="rowidx">21.</span>
+            <span class="rowname">कमेटी रिक्शा</span>
+          </div>
+          <div class="rowamt">₹2,000</div>
+        </div>
+        
+        <div class="row" data-search="मास्टर को दिए कैश">
+          <div class="rowmain">
+            <span class="rowidx">22.</span>
+            <span class="rowname">मास्टर को दिए कैश</span>
           </div>
           <div class="rowamt">₹1,600</div>
         </div>
         
-        <div class="row" data-search="बीज बानिया">
+        <div class="row" data-search="संजू बानिया">
           <div class="rowmain">
-            <span class="rowidx">20.</span>
-            <span class="rowname">बीज बानिया</span>
+            <span class="rowidx">23.</span>
+            <span class="rowname">संजू बानिया</span>
           </div>
           <div class="rowamt">₹1,570</div>
         </div>
-        <div class='rownote'>मूल में &#x27;15.70&#x27; लिखा — ₹1,570 माना गया</div>
-        <div class="row" data-search="खिलाड़ी — मुना (राहुल)">
+        
+        <div class="row" data-search="डिस्पोजल">
           <div class="rowmain">
-            <span class="rowidx">21.</span>
-            <span class="rowname">खिलाड़ी — मुना (राहुल)</span>
+            <span class="rowidx">24.</span>
+            <span class="rowname">डिस्पोजल</span>
+          </div>
+          <div class="rowamt">₹1,500</div>
+        </div>
+        
+        <div class="row" data-search="करणा पिसाई (1000 इनाम)">
+          <div class="rowmain">
+            <span class="rowidx">25.</span>
+            <span class="rowname">करणा पिसाई (1000 इनाम)</span>
+          </div>
+          <div class="rowamt">₹1,500</div>
+        </div>
+        
+        <div class="row" data-search="मुना प्लेयर">
+          <div class="rowmain">
+            <span class="rowidx">26.</span>
+            <span class="rowname">मुना प्लेयर</span>
           </div>
           <div class="rowamt">₹1,500</div>
         </div>
         
         <div class="row" data-search="दूध">
           <div class="rowmain">
-            <span class="rowidx">22.</span>
+            <span class="rowidx">27.</span>
             <span class="rowname">दूध</span>
           </div>
           <div class="rowamt">₹1,500</div>
@@ -1453,15 +1473,23 @@
         
         <div class="row" data-search="सतनाम">
           <div class="rowmain">
-            <span class="rowidx">23.</span>
+            <span class="rowidx">28.</span>
             <span class="rowname">सतनाम</span>
+          </div>
+          <div class="rowamt">₹1,400</div>
+        </div>
+        
+        <div class="row" data-search="बच्चों के समोसे + कोल्डड्रिंग">
+          <div class="rowmain">
+            <span class="rowidx">29.</span>
+            <span class="rowname">बच्चों के समोसे + कोल्डड्रिंग</span>
           </div>
           <div class="rowamt">₹1,400</div>
         </div>
         
         <div class="row" data-search="बैनर">
           <div class="rowmain">
-            <span class="rowidx">24.</span>
+            <span class="rowidx">30.</span>
             <span class="rowname">बैनर</span>
           </div>
           <div class="rowamt">₹1,200</div>
@@ -1469,7 +1497,7 @@
         
         <div class="row" data-search="रस्सा-कस्सी — प्रथम पुरस्कार">
           <div class="rowmain">
-            <span class="rowidx">25.</span>
+            <span class="rowidx">31.</span>
             <span class="rowname">रस्सा-कस्सी — प्रथम पुरस्कार</span>
           </div>
           <div class="rowamt">₹1,100</div>
@@ -1477,103 +1505,79 @@
         
         <div class="row" data-search="बुज़ुर्गों की दौड़ — प्रथम">
           <div class="rowmain">
-            <span class="rowidx">26.</span>
+            <span class="rowidx">32.</span>
             <span class="rowname">बुज़ुर्गों की दौड़ — प्रथम</span>
           </div>
           <div class="rowamt">₹1,100</div>
         </div>
         
-        <div class="row" data-search="ई-रिक्शा किराया">
-          <div class="rowmain">
-            <span class="rowidx">27.</span>
-            <span class="rowname">ई-रिक्शा किराया</span>
-          </div>
-          <div class="rowamt">₹1,000</div>
-        </div>
-        <div class='rownote'>विवरण अस्पष्ट — सत्यापित करें</div>
-        <div class="row" data-search="डिस्पोज़ल">
-          <div class="rowmain">
-            <span class="rowidx">28.</span>
-            <span class="rowname">डिस्पोज़ल</span>
-          </div>
-          <div class="rowamt">₹1,000</div>
-        </div>
-        
-        <div class="row" data-search="हिल (अस्पष्ट मद)">
-          <div class="rowmain">
-            <span class="rowidx">29.</span>
-            <span class="rowname">हिल (अस्पष्ट मद)</span>
-          </div>
-          <div class="rowamt">₹1,000</div>
-        </div>
-        <div class='rownote'>विवरण अस्पष्ट — सत्यापित करें</div>
-        <div class="row" data-search="बाइक तेल (गौरव + जतिन)">
-          <div class="rowmain">
-            <span class="rowidx">30.</span>
-            <span class="rowname">बाइक तेल (गौरव + जतिन)</span>
-          </div>
-          <div class="rowamt">₹1,000</div>
-        </div>
-        
-        <div class="row" data-search="खिलाड़ी — काली">
-          <div class="rowmain">
-            <span class="rowidx">31.</span>
-            <span class="rowname">खिलाड़ी — काली</span>
-          </div>
-          <div class="rowamt">₹800</div>
-        </div>
-        
-        <div class="row" data-search="सेटा (विक्रेता)">
-          <div class="rowmain">
-            <span class="rowidx">32.</span>
-            <span class="rowname">सेटा (विक्रेता)</span>
-          </div>
-          <div class="rowamt">₹730</div>
-        </div>
-        <div class='rownote'>नाम अस्पष्ट — सत्यापित करें</div>
-        <div class="row" data-search="समोसे + कैटरिंग">
+        <div class="row" data-search="रवि लाइट">
           <div class="rowmain">
             <span class="rowidx">33.</span>
-            <span class="rowname">समोसे + कैटरिंग</span>
+            <span class="rowname">रवि लाइट</span>
           </div>
-          <div class="rowamt">₹600</div>
+          <div class="rowamt">₹1,000</div>
+        </div>
+        
+        <div class="row" data-search="लिलु">
+          <div class="rowmain">
+            <span class="rowidx">34.</span>
+            <span class="rowname">लिलु</span>
+          </div>
+          <div class="rowamt">₹1,000</div>
+        </div>
+        
+        <div class="row" data-search="बाइक तेल (गांधी + जतिन)">
+          <div class="rowmain">
+            <span class="rowidx">35.</span>
+            <span class="rowname">बाइक तेल (गांधी + जतिन)</span>
+          </div>
+          <div class="rowamt">₹1,000</div>
+        </div>
+        
+        <div class="row" data-search="समोसे + कोल्डड्रिंग (कोच)">
+          <div class="rowmain">
+            <span class="rowidx">36.</span>
+            <span class="rowname">समोसे + कोल्डड्रिंग (कोच)</span>
+          </div>
+          <div class="rowamt">₹745</div>
+        </div>
+        
+        <div class="row" data-search="सेटा">
+          <div class="rowmain">
+            <span class="rowidx">37.</span>
+            <span class="rowname">सेटा</span>
+          </div>
+          <div class="rowamt">₹730</div>
         </div>
         
         <div class="row" data-search="मटका दौड़ — प्रथम">
           <div class="rowmain">
-            <span class="rowidx">34.</span>
+            <span class="rowidx">38.</span>
             <span class="rowname">मटका दौड़ — प्रथम</span>
           </div>
           <div class="rowamt">₹600</div>
         </div>
         
-        <div class="row" data-search="रवि इलेक्ट्रिक">
+        <div class="row" data-search="रोहित इनाम">
           <div class="rowmain">
-            <span class="rowidx">35.</span>
-            <span class="rowname">रवि इलेक्ट्रिक</span>
+            <span class="rowidx">39.</span>
+            <span class="rowname">रोहित इनाम</span>
           </div>
           <div class="rowamt">₹500</div>
         </div>
         
-        <div class="row" data-search="रोटी">
+        <div class="row" data-search="बलजीत गांधी">
           <div class="rowmain">
-            <span class="rowidx">36.</span>
-            <span class="rowname">रोटी</span>
-          </div>
-          <div class="rowamt">₹500</div>
-        </div>
-        
-        <div class="row" data-search="पिसाई खर्च (कर्ज़ा पिसाई)">
-          <div class="rowmain">
-            <span class="rowidx">37.</span>
-            <span class="rowname">पिसाई खर्च (कर्ज़ा पिसाई)</span>
+            <span class="rowidx">40.</span>
+            <span class="rowname">बलजीत गांधी</span>
           </div>
           <div class="rowamt">₹500</div>
         </div>
         
         <div class="row" data-search="रस्सा-कस्सी — द्वितीय पुरस्कार">
           <div class="rowmain">
-            <span class="rowidx">38.</span>
+            <span class="rowidx">41.</span>
             <span class="rowname">रस्सा-कस्सी — द्वितीय पुरस्कार</span>
           </div>
           <div class="rowamt">₹500</div>
@@ -1581,7 +1585,7 @@
         
         <div class="row" data-search="मटका दौड़ — द्वितीय">
           <div class="rowmain">
-            <span class="rowidx">39.</span>
+            <span class="rowidx">42.</span>
             <span class="rowname">मटका दौड़ — द्वितीय</span>
           </div>
           <div class="rowamt">₹500</div>
@@ -1589,7 +1593,7 @@
         
         <div class="row" data-search="बुज़ुर्गों की दौड़ — द्वितीय">
           <div class="rowmain">
-            <span class="rowidx">40.</span>
+            <span class="rowidx">43.</span>
             <span class="rowname">बुज़ुर्गों की दौड़ — द्वितीय</span>
           </div>
           <div class="rowamt">₹500</div>
@@ -1597,40 +1601,32 @@
         
         <div class="row" data-search="चम्मच दौड़ — प्रथम">
           <div class="rowmain">
-            <span class="rowidx">41.</span>
+            <span class="rowidx">44.</span>
             <span class="rowname">चम्मच दौड़ — प्रथम</span>
           </div>
           <div class="rowamt">₹200</div>
         </div>
         
-        <div class="row" data-search="बलजीत गौरव">
+        <div class="row" data-search="बोरी दौड़ (u14) — प्रथम">
           <div class="rowmain">
-            <span class="rowidx">42.</span>
-            <span class="rowname">बलजीत गौरव</span>
-          </div>
-          <div class="rowamt">₹100</div>
-        </div>
-        <div class='rownote'>नाम अस्पष्ट — सत्यापित करें</div>
-        <div class="row" data-search="बोरी दौड़ (u-14) — प्रथम">
-          <div class="rowmain">
-            <span class="rowidx">43.</span>
-            <span class="rowname">बोरी दौड़ (u-14) — प्रथम</span>
+            <span class="rowidx">45.</span>
+            <span class="rowname">बोरी दौड़ (U14) — प्रथम</span>
           </div>
           <div class="rowamt">₹100</div>
         </div>
         
         <div class="row" data-search="चम्मच दौड़ — द्वितीय">
           <div class="rowmain">
-            <span class="rowidx">44.</span>
+            <span class="rowidx">46.</span>
             <span class="rowname">चम्मच दौड़ — द्वितीय</span>
           </div>
           <div class="rowamt">₹100</div>
         </div>
         
-        <div class="row" data-search="बोरी दौड़ (u-14) — द्वितीय">
+        <div class="row" data-search="बोरी दौड़ (u14) — द्वितीय">
           <div class="rowmain">
-            <span class="rowidx">45.</span>
-            <span class="rowname">बोरी दौड़ (u-14) — द्वितीय</span>
+            <span class="rowidx">47.</span>
+            <span class="rowname">बोरी दौड़ (U14) — द्वितीय</span>
           </div>
           <div class="rowamt">₹50</div>
         </div>
@@ -1645,57 +1641,56 @@
       <summary>
         <span class="ticket">📒</span>
         <span class="grouptitle">मिलान नोट <span class="subtle">(समिति का अपना हिसाब)</span></span>
-        <span class="grouptotal">₹1,57,955</span>
+        <span class="grouptotal">₹2,38,950</span>
       </summary>
       <div class="groupbody">
-        <div class="groupnote">यह पेज खुद एक छोटी खर्च सूची और फिर एक मिलान (reconciliation) दिखाता है — जैसा मूल में लिखा है:</div>
-        
-    <div class="row">
-      <div class="rowmain"><span class="rowname">रमेश — RO (पानी)</span></div>
-      <div class="rowamt">₹7,000</div>
-    </div>
-    <div class="row">
-      <div class="rowmain"><span class="rowname">टेल्लू बानिया</span></div>
-      <div class="rowamt">₹4,400</div>
-    </div>
-    <div class="row">
-      <div class="rowmain"><span class="rowname">सुतड़ा पंडित (कुल्ही)</span></div>
-      <div class="rowamt">₹2,080</div>
-    </div>
-    <div class="row">
-      <div class="rowmain"><span class="rowname">बच्चों के समोसे + कैटरिंग</span></div>
-      <div class="rowamt">₹1,000</div>
-    </div>
+        <div class="groupnote">रजिस्टर के मिलान वाले पन्ने पर जैसा लिखा है:</div>
+        <div class="row">
+          <div class="rowmain"><span class="rowname">सामान्य खर्च सूची का कुल (जतिन)</span></div>
+          <div class="rowamt">₹1,63,100</div>
+        </div>
+        <div class="row">
+          <div class="rowmain"><span class="rowname">अशोक का खर्चा</span></div>
+          <div class="rowamt">₹75,850</div>
+        </div>
         <div class="row total-row">
-          <div class="rowmain"><span class="rowname">इन 4 मदों का योग</span></div>
-          <div class="rowamt">₹14,480</div>
+          <div class="rowmain"><span class="rowname">कुल खर्च</span></div>
+          <div class="rowamt">₹2,38,950</div>
         </div>
         <div class="divider"></div>
         <div class="row">
-          <div class="rowmain"><span class="rowname">पेज पर अंकित "कुल" खर्च (running figure)</span></div>
-          <div class="rowamt">₹1,57,955</div>
-        </div>
-        <div class="row">
-          <div class="rowmain"><span class="rowname">आय पक्ष — "मास्टर" द्वारा दिए गए</span></div>
+          <div class="rowmain"><span class="rowname">अशोक से आय — नगद</span></div>
           <div class="rowamt">₹1,44,000</div>
         </div>
         <div class="row">
-          <div class="rowmain"><span class="rowname">आय पक्ष — कलेक्शन</span></div>
+          <div class="rowmain"><span class="rowname">कलेक्शन</span></div>
           <div class="rowamt">₹8,200</div>
         </div>
         <div class="row">
-          <div class="rowmain"><span class="rowname">आय पक्ष — एंट्री शुल्क (ओपन + पेयर)</span></div>
+          <div class="rowmain"><span class="rowname">एंट्री शुल्क</span></div>
           <div class="rowamt">₹8,000</div>
+        </div>
+        <div class="row">
+          <div class="rowmain"><span class="rowname">नगद (क्रिकेट)</span></div>
+          <div class="rowamt">₹5,100</div>
         </div>
         <div class="row total-row">
           <div class="rowmain"><span class="rowname">आय पक्ष कुल योग</span></div>
-          <div class="rowamt">₹1,60,200</div>
+          <div class="rowamt">₹1,65,300</div>
+        </div>
+        <div class="row">
+          <div class="rowmain"><span class="rowname">सामान्य खर्च सूची</span></div>
+          <div class="rowamt">₹1,63,100</div>
+        </div>
+        <div class="row">
+          <div class="rowmain"><span class="rowname">अशोक का खर्चा</span></div>
+          <div class="rowamt">₹75,850</div>
         </div>
         <div class="row total-row">
-          <div class="rowmain"><span class="rowname">शेष (आय पक्ष − खर्च)</span></div>
-          <div class="rowamt">₹2,245</div>
+          <div class="rowmain"><span class="rowname">शेष (आय पक्ष − कुल खर्च)</span></div>
+          <div class="rowamt neg">−₹73,650</div>
         </div>
-        <div class="groupnote warn">⚠ यह आंकड़े साफ नहीं करते कि यह ऊपर की खर्च सूची में पहले से शामिल हैं या अलग हैं — कृपया रजिस्टर रखने वाले से पुष्टि करें, इसे ऊपर के योग में सीधे न जोड़ें।</div>
+        <div class="groupnote">नोट: रजिस्टर में लिखा शेष ₹2,200 केवल सामान्य खर्च सूची (₹1,63,100) से निकाला गया था; यहाँ अशोक का खर्चा ₹75,850 भी घटाया गया है।</div>
       </div>
     </details>
   
